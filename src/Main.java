@@ -4,6 +4,7 @@
 // Created by Aaron Renfroe 10/1/2016
 //CalBaptist University SE HW 3
 */
+
 import java.util.*;
 import java.io.*;
 import java.awt.*;
@@ -157,11 +158,5 @@ public class Main {
 
     }
 
-
-    /*
-    public static void (){
-
-    }
-     */
 
 }
