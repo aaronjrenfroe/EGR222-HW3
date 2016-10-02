@@ -85,6 +85,11 @@ public class Main {
     // Graphs the data from the results using two helper methods
 
     // sets the drawing panel and returns Graphics
+    // I originally had grapher() split in to 3 methods instead of two
+    // grapher(..)
+    // graphSetUp(..)
+    // drawBars(..)
+    // but It was not sure if that was ok
     public static void grapher(String results, String meaning){
         DrawingPanel panel = new DrawingPanel(WIDTH,HEIGHT);
         Graphics g = panel.getGraphics();
