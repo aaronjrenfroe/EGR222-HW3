@@ -140,7 +140,6 @@ public class Main {
             else{         // start x,    start y,        R->, Down v //
                 double y = 30 +((rank/1000.0)*(HEIGHT-30));
                 double length = (HEIGHT-29)-y;
-                System.out.println(bottom);
 
 
                 g.fillRect(count * 60, (int) y,30, (int) length);
