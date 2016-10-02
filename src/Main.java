@@ -3,14 +3,15 @@ HELLO!
  */
 import java.util.*;
 import java.io.*;
+import java.awt.*;
 
 public class Main {
-    // Search Criteria...Contains Name and Gender used to return Name and Gender from another a method
-    static final class searchOBJ{
+    // NameObject...Contains Name and Gender used to return Name and Gender from another a method
+    static final class NameObject{
         private final String name;
         private final String gender;
 
-        public searchOBJ(String name, String gender){
+        public NameObject(String name, String gender){
             this.name = name;
             this.gender = gender;
         }
@@ -24,21 +25,27 @@ public class Main {
         }
 
     }
+    
+    static final int HEIGHT = 560;
+    static final int WIDTH = 780;
+    static final int STARTING_YEAR = 1890;
 
     public static void main(String[] args) {
 
-        //DrawingPanel panel = new DrawingPanel(650,400);
-
         printIntro();
 
-        searchOBJ nameAndGender = getSearchCriteria();
+        NameObject nameAndGender = getSearchCriteria();
         String results = searchFile(nameAndGender, "names.txt", false);
-        System.out.print(results);
+        System.out.println(results);
+        if (!results.contains("Sorry ")){
 
-
+            String meaning = searchFile(nameAndGender, "meanings.txt", true);
+            System.out.println(meaning);
+            grapher(results,meaning);
+        }
 
     }
-
+    // prints the intro paragraph
     public static void printIntro(){
         // made only one call for efficiency
         System.out.println("This program allows you to search through the\n" +
@@ -46,8 +53,8 @@ public class Main {
                 "to see how popular a particular name has been\n" +
                 "since 1890\n");
     }
-
-    public static searchOBJ getSearchCriteria(){
+    // searches a file for a name and/or gender
+    public static NameObject getSearchCriteria(){
         Scanner console = new Scanner(System.in);
         System.out.print("Name: ");
         String name = console.next();
@@ -55,10 +62,10 @@ public class Main {
         System.out.print("Gender (M or F): ");
         String gender = console.next();
         //System.out.println("\n" + name + " " + gender);
-        return new searchOBJ(name, gender);
+        return new NameObject(name, gender);
     }
-
-    public static String searchFile(searchOBJ nameAndGender, String fileName, boolean meaning){
+    //
+    public static String searchFile(NameObject nameAndGender, String fileName, boolean meaning){
 
         String wantedName = nameAndGender.getName().toLowerCase();
         String wantedGender = nameAndGender.getGender().toLowerCase();
@@ -70,22 +77,22 @@ public class Main {
             while (nameList.hasNextLine()){
                 String results = nameList.nextLine();
                 Scanner wbw = new Scanner(results);
-                String dataFromFile = wbw.next();
-                dataFromFile = results.substring(0,wantedName.length()+1).toLowerCase();
-                System.out.println(wantedName +" : " + dataFromFile);
+                String dataFromFile = wbw.next().toLowerCase();
 
-                //wantedName+" "
-                if (dataFromFile.contains(wantedName+ " ")){
+                if ((dataFromFile.contains(wantedName)) && (dataFromFile.length() == wantedName.length())){
 
                     String genderTry = wbw.next().toLowerCase();
-                    System.out.println(wantedGender +" : " + genderTry);
-                    if (genderTry.charAt(0) == wantedGender.charAt(0)) {
+
+                    if (meaning){
+                        return results;
+                    }
+                    else if (genderTry.charAt(0) == wantedGender.charAt(0)) {
                         return (results);
                     }
                 }
 
             }
-            return ("Sorry \""+ wantedName + "\"was not found.");
+            return ("Sorry \""+ wantedName + "\" was not found.");
         }
         catch (FileNotFoundException ex){
             return("File Not Found");
@@ -94,6 +101,58 @@ public class Main {
     }
 
 
+    public static void grapher(String results, String meaning){
+
+        Graphics g = graphSetUp(meaning);
+        drawBars(g, results);
+    }
+
+    public static Graphics graphSetUp( String meaning){
+        DrawingPanel panel = new DrawingPanel(WIDTH,HEIGHT);
+        Graphics g = panel.getGraphics();
+        panel.setBackground(Color.WHITE);
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(0,0,WIDTH,30);
+        g.fillRect(0,HEIGHT-30,WIDTH,30);
+        g.setColor(Color.BLACK);
+        g.drawString(meaning,0,16);
+        g.drawLine(0,30,WIDTH,30);
+        g.drawLine(0,HEIGHT-30,WIDTH,HEIGHT-30);
+        //g.drawLine(0,HEIGHT,WIDTH,HEIGHT);
+
+
+        return g;
+    }
+    public static void drawBars(Graphics g, String results){
+        int count = 0;
+        Scanner s = new Scanner(results);
+        s.next();
+        s.next();
+        while (s.hasNext()){
+
+            int rank = Integer.parseInt(s.next());
+
+            g.setColor(Color.DARK_GRAY);
+            if (rank == 0){
+                g.drawString("0",count * 60,HEIGHT-30);
+            }
+
+            else{         // start x,    start y,        R->, Down v //
+                double y = 30 +((rank/1000.0)*(HEIGHT-30));
+                double length = (HEIGHT-29)-y;
+                System.out.println(bottom);
+
+
+                g.fillRect(count * 60, (int) y,30, (int) length);
+                g.drawString(Integer.toString(rank),count*60,(int) y);
+            }
+            g.setColor(Color.BLACK);
+            g.drawString(Integer.toString(STARTING_YEAR + count*10), count*60,HEIGHT-10);
+            count ++;
+
+        }
+
+    }
 
 
     /*
