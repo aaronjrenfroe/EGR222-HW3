@@ -1,6 +1,9 @@
 /*
-HELLO!
- */
+//This program takes user a name and gender from the user,
+//searches the given files for that name and outputs the data as console text and a histogram
+// Created by Aaron Renfroe 10/1/2016
+//CalBaptist University SE HW 3
+*/
 import java.util.*;
 import java.io.*;
 import java.awt.*;
@@ -45,6 +48,7 @@ public class Main {
         }
 
     }
+
     // prints the intro paragraph
     public static void printIntro(){
         // made only one call for efficiency
@@ -64,7 +68,7 @@ public class Main {
         //System.out.println("\n" + name + " " + gender);
         return new NameObject(name, gender);
     }
-    //
+    // searches the given file for name and returns the results
     public static String searchFile(NameObject nameAndGender, String fileName, boolean meaning){
 
         String wantedName = nameAndGender.getName().toLowerCase();
@@ -99,14 +103,13 @@ public class Main {
         }
 
     }
-
-
+    // Graphs the data from the results using two helper methods
     public static void grapher(String results, String meaning){
 
         Graphics g = graphSetUp(meaning);
         drawBars(g, results);
     }
-
+    // sets the drawing panel and returns Graphics
     public static Graphics graphSetUp( String meaning){
         DrawingPanel panel = new DrawingPanel(WIDTH,HEIGHT);
         Graphics g = panel.getGraphics();
@@ -123,6 +126,7 @@ public class Main {
 
         return g;
     }
+    //Draws the Bars on the Histogram
     public static void drawBars(Graphics g, String results){
         int count = 0;
         Scanner s = new Scanner(results);
