@@ -28,13 +28,13 @@ public final class NameObject {
         return gender;
     }
 
-    public Boolean setName(String newName){
+    public String setName(String newName){
         this.name = newName;
-        return true;
+        return name;
     }
 
-    public Boolean setGender(String newGender){
+    public String setGender(String newGender){
         this.gender = newGender;
-        return true;
+        return gender;
     }
 }
