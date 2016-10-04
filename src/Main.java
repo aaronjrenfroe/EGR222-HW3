@@ -17,30 +17,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        printIntro();
-
         NameObject nameAndGender = getSearchCriteria();
         String results = searchFile(nameAndGender, "names.txt");
-        System.out.println(results);
+
         if (!results.contains("Sorry ")){
 
-            String meaning = searchFile(nameAndGender, "meanings.txt");
-            System.out.println(meaning);
-            grapher(results,meaning);
+            grapher(results,searchFile(nameAndGender, "meanings.txt"));
+
         }
 
     }
 
     // prints the intro paragraph
-    public static void printIntro(){
+
+    // searches a file for a name and/or gender
+    public static NameObject getSearchCriteria(){
 
         System.out.println("This program allows you to search through the\n" +
                 "data from the Social Security Administration\n" +
                 "to see how popular a particular name has been\n" +
                 "since " + STARTING_YEAR+".\n");
-    }
-    // searches a file for a name and/or gender
-    public static NameObject getSearchCriteria(){
+
         Scanner console = new Scanner(System.in);
         System.out.print("Name: ");
         String name = console.next();
@@ -56,12 +53,13 @@ public class Main {
         String wantedName = nameAndGender.getName().toLowerCase();
         String wantedGender = nameAndGender.getGender().toLowerCase();
 
-        File names1 = new File (fileName);
         try {
 
-            Scanner nameList = new Scanner(names1);
+            Scanner nameList = new Scanner(new File (fileName));
+            String results = "";
+
             while (nameList.hasNextLine()){
-                String results = nameList.nextLine();
+                results = nameList.nextLine();
                 Scanner singleWord = new Scanner(results);
                 String dataFromFile = singleWord.next().toLowerCase();
 
@@ -70,15 +68,18 @@ public class Main {
                     String genderTry = singleWord.next().toLowerCase();
 
                     if (genderTry.charAt(0) == wantedGender.charAt(0)) {
+                        System.out.println(results);
                         return (results);
                     }
                 }
-
             }
-            return ("Sorry \""+ wantedName + "\" was not found.");
+            results = ("Sorry \""+ wantedName + "\" was not found.");
+            System.out.println(results);
+
+            return results;
         }
         catch (FileNotFoundException ex){
-            return("File Not Found");
+            return("File Not Found" + ex);
         }
 
     }
@@ -86,10 +87,11 @@ public class Main {
 
     // sets the drawing panel and returns Graphics
     // I originally had grapher() split in to 3 methods instead of two
-    // grapher(..)
-    // graphSetUp(..)
-    // drawBars(..)
-    // but It was not sure if that was ok
+    // grapher(..){
+    //  graphSetUp(..)
+    //  drawBars(..)
+    // }
+    // but I was not sure if that was ok
     public static void grapher(String results, String meaning){
         DrawingPanel panel = new DrawingPanel(WIDTH,HEIGHT);
         Graphics g = panel.getGraphics();

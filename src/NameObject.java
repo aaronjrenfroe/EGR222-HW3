@@ -6,8 +6,14 @@
  */
 // NameObject...Contains Name and Gender used to return Name and Gender from another a method
 public final class NameObject {
-    private final String name;
-    private final String gender;
+    private String name;
+    private String gender;
+
+    public NameObject(){
+        this.name = "";
+        this.gender = "";
+    }
+
 
     public NameObject(String name, String gender){
         this.name = name;
@@ -20,5 +26,15 @@ public final class NameObject {
 
     public String getGender(){
         return gender;
+    }
+
+    public Boolean setName(String newName){
+        this.name = newName;
+        return true;
+    }
+
+    public Boolean setGender(String newGender){
+        this.gender = newGender;
+        return true;
     }
 }
