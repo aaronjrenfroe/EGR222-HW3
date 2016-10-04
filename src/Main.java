@@ -20,7 +20,7 @@ public class Main {
         NameObject nameAndGender = getSearchCriteria();
         String results = searchFile(nameAndGender, "names.txt");
 
-        if (!results.contains("Sorry ")){
+        if (results != "" ){
 
             grapher(results,searchFile(nameAndGender, "meanings.txt"));
 
@@ -73,10 +73,10 @@ public class Main {
                     }
                 }
             }
-            results = ("Sorry \""+ wantedName + "\" was not found.");
-            System.out.println(results);
 
-            return results;
+            System.out.println("Sorry \""+ wantedName + "\" was not found.");
+
+            return "";
         }
         catch (FileNotFoundException ex){
             return("File Not Found" + ex);
