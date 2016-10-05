@@ -30,10 +30,10 @@ public class Main {
 
     }
 
-    static final String NAME_FILE = "names2.txt";
-    static final int STARTING_YEAR = 1863;
-    static final int BAR_SEP = 50;
-    static final int NAV_H = 20;
+    static final String NAME_FILE = "names.txt";
+    static final int STARTING_YEAR = 1890;
+    static final int BAR_SEP = 60;
+    static final int NAV_H = 30;
 
 
 
@@ -146,12 +146,14 @@ public class Main {
                 double y = NAV_H +((rank/1000.0)*(500));
                 double length = (panelHeight-(NAV_H)+1)-y;
 
-                g.setColor(Color.GREEN);
-                g.fillRect(decades * BAR_SEP, (int) y,barWidth, (int) length);
                 g.setColor(Color.BLACK);
                 g.drawString(Integer.toString(rank),decades*BAR_SEP,(int) y);
+                g.setColor(Color.GREEN);
+                g.fillRect(decades * BAR_SEP, (int) y,barWidth, (int) length);
+                //g.setColor(Color.BLACK);
+                //g.drawString(Integer.toString(rank),decades*BAR_SEP,(int) y);
             }
-
+            g.setColor(Color.BLACK);
             g.drawString(Integer.toString(STARTING_YEAR + decades*10), decades*BAR_SEP,panelHeight-8);
             decades ++;
 
