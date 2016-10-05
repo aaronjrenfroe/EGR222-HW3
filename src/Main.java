@@ -10,15 +10,37 @@ import java.io.*;
 import java.awt.*;
 
 public class Main {
-    
-    static final int HEIGHT = 560;
-    static final int WIDTH = 780;
-    static final int STARTING_YEAR = 1890;
+
+    static final class NameObject {
+        private String name;
+        private String gender;
+
+        private NameObject(String name, String gender){
+            this.name = name;
+            this.gender = gender;
+        }
+
+        public String getName(){
+            return name;
+        }
+
+        public String getGender(){
+            return gender;
+        }
+
+    }
+
+    static final String NAME_FILE = "names2.txt";
+    static final int STARTING_YEAR = 1863;
+    static final int BAR_SEP = 50;
+    static final int NAV_H = 20;
+
+
 
     public static void main(String[] args) {
 
         NameObject nameAndGender = getSearchCriteria();
-        String results = searchFile(nameAndGender, "names.txt");
+        String results = searchFile(nameAndGender, NAME_FILE);
 
         if (results != "" ){
 
@@ -28,7 +50,6 @@ public class Main {
 
     }
 
-    // prints the intro paragraph
 
     // searches a file for a name and/or gender
     public static NameObject getSearchCriteria(){
@@ -56,7 +77,7 @@ public class Main {
         try {
 
             Scanner nameList = new Scanner(new File (fileName));
-            String results = "";
+            String results;
 
             while (nameList.hasNextLine()){
                 results = nameList.nextLine();
@@ -83,33 +104,32 @@ public class Main {
         }
 
     }
-    // Graphs the data from the results using two helper methods
 
-    // sets the drawing panel and returns Graphics
-    // I originally had grapher() split in to 3 methods instead of two
-    // grapher(..){
-    //  graphSetUp(..)
-    //  drawBars(..)
-    // }
-    // but I was not sure if that was ok
+    // Graphs the data from the results of the search
     public static void grapher(String results, String meaning){
-        DrawingPanel panel = new DrawingPanel(WIDTH,HEIGHT);
+        int panelWidth = 780;
+        int panelHeight = 500+2*NAV_H;
+        DrawingPanel panel = new DrawingPanel(panelWidth,panelHeight);
         Graphics g = panel.getGraphics();
         panel.setBackground(Color.WHITE);
+
         g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(0,0,WIDTH,30);
-        g.fillRect(0,HEIGHT-30,WIDTH,30);
+        g.fillRect(0,0,panelWidth,NAV_H);
+        g.fillRect(0,panelHeight-NAV_H,panelWidth,NAV_H);
         g.setColor(Color.BLACK);
         g.drawString(meaning,0,16);
-        g.drawLine(0,30,WIDTH,30);
-        g.drawLine(0,HEIGHT-30,WIDTH,HEIGHT-30);
+        g.drawLine(0,NAV_H,panelWidth,NAV_H);
 
-        drawBars(g, results);
+        drawBars(g, results, panelHeight);
+        g.drawLine(0,panelHeight-NAV_H,panelWidth,panelHeight-NAV_H);
+
     }
 
     //Draws the Bars on the Histogram
-    public static void drawBars(Graphics g, String results){
+    public static void drawBars(Graphics g, String results, int panelHeight){
         int decades = 0;
+        int barWidth = BAR_SEP/2;
+
         Scanner s = new Scanner(results);
         s.next();
         s.next();
@@ -119,20 +139,20 @@ public class Main {
 
             if (rank == 0){
                 g.setColor(Color.BLACK);
-                g.drawString("0",decades * 60,HEIGHT-30);
+                g.drawString("0",decades * BAR_SEP,panelHeight-NAV_H);
             }
 
             else{
-                double y = 30 +((rank/1000.0)*(HEIGHT-30));
-                double length = (HEIGHT-29)-y;
+                double y = NAV_H +((rank/1000.0)*(500));
+                double length = (panelHeight-(NAV_H)+1)-y;
 
                 g.setColor(Color.GREEN);
-                g.fillRect(decades * 60, (int) y,30, (int) length);
+                g.fillRect(decades * BAR_SEP, (int) y,barWidth, (int) length);
                 g.setColor(Color.BLACK);
-                g.drawString(Integer.toString(rank),decades*60,(int) y);
+                g.drawString(Integer.toString(rank),decades*BAR_SEP,(int) y);
             }
 
-            g.drawString(Integer.toString(STARTING_YEAR + decades*10), decades*60,HEIGHT-10);
+            g.drawString(Integer.toString(STARTING_YEAR + decades*10), decades*BAR_SEP,panelHeight-8);
             decades ++;
 
         }
