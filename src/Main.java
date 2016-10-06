@@ -34,6 +34,8 @@ public class Main {
     static final int STARTING_YEAR = 1890;
     static final int BAR_SEP = 60;
     static final int NAV_H = 30;
+    static final int PANEL_WIDTH = 780;
+    static final int PANEL_HEIGHT = 500+2*NAV_H;
 
 
 
@@ -107,26 +109,33 @@ public class Main {
 
     // Graphs the data from the results of the search
     public static void grapher(String results, String meaning){
-        int panelWidth = 780;
-        int panelHeight = 500+2*NAV_H;
-        DrawingPanel panel = new DrawingPanel(panelWidth,panelHeight);
-        Graphics g = panel.getGraphics();
+
+        DrawingPanel panel = new DrawingPanel(PANEL_WIDTH,PANEL_HEIGHT);
         panel.setBackground(Color.WHITE);
+        Graphics g = panel.getGraphics();
+
+        graphSetup(g, meaning);
+
+        drawBars(g, results, PANEL_HEIGHT);
+        
+
+
+    }
+    public static void graphSetup(Graphics g, String meaning){
+
 
         g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(0,0,panelWidth,NAV_H);
-        g.fillRect(0,panelHeight-NAV_H,panelWidth,NAV_H);
+        g.fillRect(0,0,PANEL_WIDTH,NAV_H);
+        g.fillRect(0,PANEL_HEIGHT-NAV_H,PANEL_WIDTH,NAV_H);
         g.setColor(Color.BLACK);
         g.drawString(meaning,0,16);
-        g.drawLine(0,NAV_H,panelWidth,NAV_H);
-
-        drawBars(g, results, panelHeight);
-        g.drawLine(0,panelHeight-NAV_H,panelWidth,panelHeight-NAV_H);
-
+        g.drawLine(0,NAV_H,PANEL_WIDTH,NAV_H);
+        g.drawLine(0,PANEL_HEIGHT-NAV_H,PANEL_WIDTH,PANEL_HEIGHT-NAV_H);
+        
     }
 
     //Draws the Bars on the Histogram
-    public static void drawBars(Graphics g, String results, int panelHeight){
+    public static void drawBars(Graphics g, String results, int PANEL_HEIGHT){
         int decades = 0;
         int barWidth = BAR_SEP/2;
 
@@ -139,12 +148,12 @@ public class Main {
 
             if (rank == 0){
                 g.setColor(Color.BLACK);
-                g.drawString("0",decades * BAR_SEP,panelHeight-NAV_H);
+                g.drawString("0",decades * BAR_SEP,PANEL_HEIGHT-NAV_H);
             }
 
             else{
-                double y = NAV_H +((rank/1000.0)*(500));
-                double length = (panelHeight-(NAV_H)+1)-y;
+                double y = NAV_H +(Math.ceil((rank/1000.0)*(500)));
+                double length = (PANEL_HEIGHT-(NAV_H)+1)-y-1;
 
                 g.setColor(Color.BLACK);
                 g.drawString(Integer.toString(rank),decades*BAR_SEP,(int) y);
@@ -154,7 +163,7 @@ public class Main {
                 //g.drawString(Integer.toString(rank),decades*BAR_SEP,(int) y);
             }
             g.setColor(Color.BLACK);
-            g.drawString(Integer.toString(STARTING_YEAR + decades*10), decades*BAR_SEP,panelHeight-8);
+            g.drawString(Integer.toString(STARTING_YEAR + decades*10), decades*BAR_SEP,PANEL_HEIGHT-8);
             decades ++;
 
         }
