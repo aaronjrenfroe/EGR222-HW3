@@ -52,7 +52,6 @@ public class Main {
 
     }
 
-
     // searches a file for a name and/or gender
     public static NameObject getSearchCriteria(){
 
@@ -70,6 +69,7 @@ public class Main {
         //System.out.println("\n" + name + " " + gender);
         return new NameObject(name, gender);
     }
+
     // searches the given file for name and returns the results
     public static String searchFile(NameObject nameAndGender, String fileName){
 
@@ -117,8 +117,11 @@ public class Main {
         graphSetup(g, meaning);
 
         drawBars(g, results, PANEL_HEIGHT);
+        g.drawLine(0,PANEL_HEIGHT-NAV_H,PANEL_WIDTH,PANEL_HEIGHT-NAV_H);
 
     }
+
+    // helper method used to set up the graph
     public static void graphSetup(Graphics g, String meaning){
 
         g.setColor(Color.LIGHT_GRAY);
@@ -131,7 +134,7 @@ public class Main {
         
     }
 
-    //Draws the Bars on the Histogram
+    //Helper Method to Draw the Bars on the Histogram
     public static void drawBars(Graphics g, String results, int PANEL_HEIGHT){
         int decades = 0;
         int barWidth = BAR_SEP/2;
@@ -149,15 +152,14 @@ public class Main {
             }
 
             else{
-                double y = NAV_H +(Math.ceil((rank/1000.0)*(500)));
-                double length = (PANEL_HEIGHT-(NAV_H)+1)-y-1;
+                double y = NAV_H +((rank/1000.0)*(500));
+                double length = (PANEL_HEIGHT-(NAV_H)+1)-y;
 
                 g.setColor(Color.BLACK);
                 g.drawString(Integer.toString(rank),decades*BAR_SEP,(int) y);
                 g.setColor(Color.GREEN);
                 g.fillRect(decades * BAR_SEP, (int) y,barWidth, (int) length);
-                //g.setColor(Color.BLACK);
-                //g.drawString(Integer.toString(rank),decades*BAR_SEP,(int) y);
+
             }
             g.setColor(Color.BLACK);
             g.drawString(Integer.toString(STARTING_YEAR + decades*10), decades*BAR_SEP,PANEL_HEIGHT-8);
