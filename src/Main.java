@@ -38,7 +38,7 @@ public class Main {
     static final int PANEL_HEIGHT = 500+2*NAV_H;
 
 
-
+    //Main
     public static void main(String[] args) {
 
         NameObject nameAndGender = getSearchCriteria();
@@ -117,12 +117,9 @@ public class Main {
         graphSetup(g, meaning);
 
         drawBars(g, results, PANEL_HEIGHT);
-        
-
 
     }
     public static void graphSetup(Graphics g, String meaning){
-
 
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(0,0,PANEL_WIDTH,NAV_H);
